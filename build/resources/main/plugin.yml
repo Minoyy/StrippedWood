@@ -1,0 +1,4 @@
+name: StrippedWood
+version: '1.0'
+main: me.minoyy.strippedwood.StrippedWood
+api-version: '1.21'
