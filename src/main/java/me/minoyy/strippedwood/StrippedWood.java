@@ -1,7 +1,12 @@
 package me.minoyy.strippedwood;
 
+import org.bukkit.Axis;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Orientable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -19,19 +24,30 @@ public final class StrippedWood extends JavaPlugin implements Listener {
     @EventHandler
     public void StrippedWoodListener(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        Block block = event.getClickedBlock();
-        if (block == null) return;
-        Material blockType = block.getType();
 
-        if (!blockType.name().startsWith("STRIPPED_")) return;
+        Block block = event.getClickedBlock();
+        if (block == null || !block.getType().name().startsWith("STRIPPED_")) return;
 
         ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
-
         if (item.getType() != Material.BONE_MEAL)
             item = event.getPlayer().getInventory().getItemInOffHand();
         if (item.getType() != Material.BONE_MEAL) return;
 
-        block.setType(Material.valueOf(blockType.name().replace("STRIPPED_", "")));
+        BlockData blockData = block.getBlockData();
+        Orientable orientable = (Orientable) blockData;
+        Axis axis = orientable.getAxis();
+
+        block.setType(Material.valueOf(block.getType().name().replace("STRIPPED_", "")));
+
+        BlockData newBlockData = block.getBlockData();
+
+        Orientable newOrientable = (Orientable) newBlockData;
+        newOrientable.setAxis(axis);
+        block.setBlockData(newOrientable);
+
+        Location loc = block.getLocation().add(0.5, 0.5, 0.5);
+
+        block.getWorld().spawnParticle(Particle.COMPOSTER, loc, 50, 0.4, 0.4, 0.4);
 
         item.setAmount(item.getAmount() - 1);
     }
