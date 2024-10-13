@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/StrippedWood.main.iml" filepath="$PROJECT_DIR$/.idea/modules/StrippedWood.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.minoyy.StrippedWood.main.iml" filepath="$PROJECT_DIR$/.idea/modules/me.minoyy.StrippedWood.main.iml" />
     </modules>
   </component>
 </project>
